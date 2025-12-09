@@ -6,6 +6,8 @@ import Hero from '@/components/Hero';
 import PermohonanSection from '@/components/PermohonanSection';
 import { Users, FileCheck, Clock, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
+import SupportedBy from '@/components/SupportedBy';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -149,28 +151,15 @@ export default function Home() {
             </div>
 
           </div>
-
-          {/* PARTNER LOGO (Opsional: Bisa dihapus jika tidak diinginkan) */}
-          <div className="mt-12 pt-8 border-t border-white/10 text-center opacity-60 hover:opacity-100 transition-opacity">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-green-300 mb-6">Didukung Oleh</p>
-            <div className="flex flex-wrap justify-center gap-8 grayscale hover:grayscale-0 transition-all duration-500">
-               {/* Placeholder Logo */}
-               <div className="h-8 w-20 bg-white/20 rounded-md"></div>
-               <div className="h-8 w-20 bg-white/20 rounded-md"></div>
-               <div className="h-8 w-20 bg-white/20 rounded-md"></div>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-        <div className="container mx-auto px-6 text-center">
-          <p className="mb-4">&copy; 2025 PPID Pelaksana Sekretariat DPRD Provinsi Jawa Tengah.</p>
-          <p className="text-sm">Jl. Pahlawan No.7, Semarang 50243 | (024) 8415500</p>
-        </div>
-      </footer>
+
+      {/* SECTION 4: LINK TERKAIT (BARU) */}
+      <SupportedBy />
+
+{/* 2. PANGGIL COMPONENT FOOTER DI SINI */}
+      <Footer />
 
     </main>
   );

@@ -1,13 +1,93 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+
+// --- DATA STRUKTUR NAVBAR ---
+// Struktur ini memisahkan Judul (Label) dari Link.
+// Jika item punya 'children', maka dia jadi Dropdown.
+const NAV_ITEMS = [
+  { 
+    label: 'Beranda', 
+    href: '/' 
+  },
+  {
+    label: 'Profil PPID',
+    children: [
+      { label: 'Profil PPID (Umum)', href: '/profil/umum' },
+      { label: 'Visi Misi', href: '#' },
+      { label: 'Profil Pejabat Struktural', href: '#' },
+      { label: 'Susunan Organisasi', href: '#' },
+      { label: 'Susunan PPID Pelaksana', href: '#' },
+      { label: 'LHKPN', href: '#' },
+      { label: 'SDM yang Tersedia', href: '#' },
+      { label: 'Kelembagaan', href: '#' },
+    ]
+  },
+  {
+    label: 'Daftar Informasi',
+    children: [
+      { label: 'Daftar Informasi (Umum)', href: '#' }, // Link asli Daftar Informasi dipindah kesini
+      { label: 'Informasi Berkala', href: '#' },
+      { label: 'Barang & Jasa (PBJ)', href: '#' }, // Sub dari Berkala, kita taruh sejajar agar mudah diakses
+      { label: 'Informasi Dikecualikan', href: '#' },
+      { label: 'Informasi Serta Merta', href: '#' },
+      { label: 'Informasi Setiap Saat', href: '#' },
+    ]
+  },
+  {
+    label: 'Standar Pelayanan',
+    children: [
+      { label: 'Standar Pelayanan (Umum)', href: '#' }, // Link asli Standar Pelayanan dipindah kesini
+      { label: 'SOP Pelayanan Publik', href: '#' },
+      { label: 'SOP Operasional', href: '#' },
+      { label: 'SOP PPID', href: '#' },
+      { label: 'Waktu Pelayanan', href: '#' },
+    ]
+  },
+  { 
+    label: 'Whistle Blower', 
+    href: '#', // Single link, tidak ada dropdown
+    highlight: true // Penanda khusus agar beda warna
+  },
+  {
+    label: 'Permohonan',
+    children: [
+      { label: 'Permohonan Manual', href: '#' }, // Link asli Permohonan Informasi dipindah kesini
+      { label: 'Permohonan Online', href: '#' },
+      { label: 'Pengajuan Keberatan', href: '#' },
+      { label: 'Tata Cara Pengaduan Wewenang', href: '#' },
+    ]
+  },
+  {
+    label: 'Regulasi',
+    children: [
+      { label: 'Daftar Peraturan', href: '#' },
+      { label: 'JDIH DPRD Jateng', href: 'https://jdih.dprd.jatengprov.go.id/' }, // External Link
+    ]
+  },
+  {
+    label: 'Open Data',
+    children: [
+      { label: 'Open Data (Umum)', href: '#' }, // Link asli Open Data dipindah kesini
+      { label: 'Portal Open Data Jateng', href: 'https://data.jatengprov.go.id/' },
+      { label: 'Statistik Data Sektoral', href: '#' },
+    ]
+  },
+  { 
+    label: 'Aduan Pelayanan', 
+    href: '#' 
+  },
+];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // State untuk mobile dropdown toggle
+  const [mobileDropdowns, setMobileDropdowns] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +96,13 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleMobileDropdown = (label: string) => {
+    setMobileDropdowns(prev => ({
+      ...prev,
+      [label]: !prev[label]
+    }));
+  };
 
   return (
     <nav
@@ -27,7 +114,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         
-        {/* LOGO AREA (Kiri) - Muncul saat discroll atau di mobile */}
+        {/* LOGO AREA */}
         <Link href="/" className="flex items-center gap-3 group">
            <div className={`relative h-10 w-10 transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0 md:opacity-0'}`}>
              <Image 
@@ -43,47 +130,22 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* DESKTOP MENU (Lengkap Sesuai Audit PDF) */}
-        {/* Menggunakan text-xs atau text-sm agar muat */}
+        {/* DESKTOP MENU */}
         <div className="hidden xl:flex items-center gap-6 text-white">
-          <NavLink href="/" text="Beranda" />
-          
-          <NavDropdown title="Profil PPID" items={[
-            'Visi Misi', 
-            'Struktur Organisasi', 
-            'Tugas & Fungsi', 
-            'Profil Pejabat',
-            'LHKPN'
-          ]} />
-          
-          <NavDropdown title="Daftar Informasi" items={[
-            'Informasi Berkala', 
-            'Informasi Serta Merta', 
-            'Informasi Setiap Saat', 
-            'Informasi Dikecualikan'
-          ]} />
-
-          <NavDropdown title="Standar Pelayanan" items={[
-            'Maklumat Pelayanan', 
-            'Prosedur Pelayanan', 
-            'Biaya Pelayanan', 
-            'Waktu Pelayanan'
-          ]} />
-
-          {/* Whistle Blower (Menu Penting) */}
-          <Link href="#" className="font-semibold text-xs uppercase tracking-wide text-yellow-400 hover:text-white transition-colors border border-yellow-400/50 px-3 py-1.5 rounded hover:bg-yellow-500 hover:border-yellow-500">
-            Whistle Blower
-          </Link>
-
-          <NavDropdown title="Permohonan" items={[
-            'Permohonan Online', 
-            'Cek Status Tiket', 
-            'Pengajuan Keberatan'
-          ]} />
-
-          <NavLink href="#" text="Regulasi" />
-          <NavLink href="#" text="Open Data" />
-          <NavLink href="#" text="Aduan" />
+          {NAV_ITEMS.map((item, index) => (
+            item.children ? (
+              // RENDER DROPDOWN
+              <NavDropdown key={index} title={item.label} items={item.children} />
+            ) : (
+              // RENDER SINGLE LINK
+              <NavLink 
+                key={index} 
+                href={item.href} 
+                text={item.label} 
+                isHighlight={item.highlight} 
+              />
+            )
+          ))}
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -97,52 +159,96 @@ const Navbar = () => {
 
       {/* MOBILE MENU OVERLAY */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-green-900 shadow-xl border-t border-green-800 p-6 flex flex-col gap-4 xl:hidden max-h-[80vh] overflow-y-auto">
-          <MobileLink text="Beranda" />
-          <MobileLink text="Profil PPID" />
-          <MobileLink text="Daftar Informasi Publik" />
-          <MobileLink text="Standar Pelayanan" />
-          <MobileLink text="Whistle Blower" isHighlight />
-          <MobileLink text="Permohonan Informasi" />
-          <MobileLink text="Regulasi" />
-          <MobileLink text="Open Data" />
-          <MobileLink text="Aduan Pelayanan" />
+        <div className="absolute top-full left-0 w-full bg-green-900 shadow-xl border-t border-green-800 p-6 flex flex-col gap-2 xl:hidden max-h-[80vh] overflow-y-auto">
+          {NAV_ITEMS.map((item, index) => (
+            <div key={index} className="border-b border-white/10 last:border-0 pb-2">
+              {item.children ? (
+                // Mobile Accordion
+                <div>
+                  <button 
+                    onClick={() => toggleMobileDropdown(item.label)}
+                    className="flex justify-between items-center w-full text-white font-medium py-2"
+                  >
+                    {item.label}
+                    <ChevronDown size={16} className={`transition-transform ${mobileDropdowns[item.label] ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {/* Submenu Mobile */}
+                  {mobileDropdowns[item.label] && (
+                    <div className="pl-4 flex flex-col gap-2 mt-1 mb-2 bg-green-950/30 rounded-lg p-3">
+                      {item.children.map((subItem, subIndex) => (
+                        <Link 
+                          key={subIndex} 
+                          href={subItem.href}
+                          className="text-sm text-green-100 hover:text-yellow-400 py-1 flex items-center gap-2"
+                        >
+                          <ChevronRight size={12} className="text-yellow-500/50" />
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // Mobile Single Link
+                <Link 
+                  href={item.href} 
+                  className={`block py-2 font-medium ${item.highlight ? 'text-yellow-400 font-bold' : 'text-white'}`}
+                >
+                  {item.label}
+                </Link>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </nav>
   );
 };
 
-// Helper Components
-const NavLink = ({ href, text }: { href: string; text: string }) => (
-  <Link 
-    href={href} 
-    className="font-medium text-xs uppercase tracking-wide text-white/80 hover:text-white hover:underline decoration-yellow-400 decoration-2 underline-offset-4 transition-all"
-  >
-    {text}
-  </Link>
-);
+// --- COMPONENTS HELPER ---
 
-const NavDropdown = ({ title, items }: { title: string; items: string[] }) => (
-  <div className="relative group cursor-pointer h-full flex items-center">
-    <div className="flex items-center gap-1 font-medium text-xs uppercase tracking-wide text-white/80 group-hover:text-white transition-colors">
+// 1. Single Link Component
+const NavLink = ({ href, text, isHighlight }: { href: string; text: string; isHighlight?: boolean }) => {
+  if (isHighlight) {
+    return (
+      <Link href={href} className="font-bold text-xs uppercase tracking-wide text-yellow-400 hover:text-white transition-colors border border-yellow-400/50 px-3 py-1.5 rounded hover:bg-yellow-500 hover:border-yellow-500 shadow-sm hover:shadow-yellow-500/20">
+        {text}
+      </Link>
+    );
+  }
+  return (
+    <Link 
+      href={href} 
+      className="font-medium text-xs uppercase tracking-wide text-white/80 hover:text-white hover:underline decoration-yellow-400 decoration-2 underline-offset-4 transition-all"
+    >
+      {text}
+    </Link>
+  );
+};
+
+// 2. Dropdown Component
+const NavDropdown = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
+  <div className="relative group h-full flex items-center cursor-default">
+    <div className="flex items-center gap-1 font-medium text-xs uppercase tracking-wide text-white/80 group-hover:text-white transition-colors cursor-pointer py-4">
       {title} <ChevronDown size={12} />
     </div>
-    {/* Dropdown Menu */}
-    <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-2 group-hover:translate-y-0 p-2 border-t-4 border-green-600">
-      {items.map((item, i) => (
-        <div key={i} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800 rounded-md transition-colors border-b border-gray-50 last:border-0">
-          {item}
-        </div>
-      ))}
+    
+    {/* Dropdown Menu Box */}
+    <div className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-4 group-hover:translate-y-0 p-1 border-t-4 border-green-600 origin-top-left">
+      <div className="max-h-[70vh] overflow-y-auto custom-scrollbar">
+        {items.map((item, i) => (
+          <Link 
+            key={i} 
+            href={item.href}
+            className="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800 rounded-md transition-colors border-b border-gray-50 last:border-0"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
     </div>
   </div>
-);
-
-const MobileLink = ({ text, isHighlight }: { text: string, isHighlight?: boolean }) => (
-  <Link href="#" className={`block text-sm font-medium ${isHighlight ? 'text-yellow-400' : 'text-white'} border-b border-white/10 pb-2`}>
-    {text}
-  </Link>
 );
 
 export default Navbar;
