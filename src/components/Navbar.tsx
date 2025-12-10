@@ -17,13 +17,13 @@ const NAV_ITEMS = [
     label: 'Profil PPID',
     children: [
       { label: 'Profil PPID (Umum)', href: '/profil/umum' },
-      { label: 'Visi Misi', href: '#' },
-      { label: 'Profil Pejabat Struktural', href: '#' },
-      { label: 'Susunan Organisasi', href: '#' },
-      { label: 'Susunan PPID Pelaksana', href: '#' },
-      { label: 'LHKPN', href: '#' },
-      { label: 'SDM yang Tersedia', href: '#' },
-      { label: 'Kelembagaan', href: '#' },
+      { label: 'Visi Misi', href: '/profil/visi-misi' },
+      { label: 'Profil Pejabat Struktural', href: '/profil/pejabat-struktural' },
+      { label: 'Susunan Organisasi', href: '/profil/susunan-organisasi' },
+      { label: 'Susunan PPID Pelaksana', href: '/profil/susunan-ppid-pelaksana' },
+      { label: 'LHKPN', href: '/profil/lhkpn' },
+      { label: 'SDM yang Tersedia', href: '/profil/sdm' },
+      { label: 'Kelembagaan', href: '/profil/kelembagaan' },
     ]
   },
   {

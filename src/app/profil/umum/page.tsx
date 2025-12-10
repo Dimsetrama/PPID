@@ -2,8 +2,8 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-// FIX: Hapus CheckCircle2 yang tidak terpakai
-import { Building2, History, Gavel } from 'lucide-react';
+// FIX: Tambahkan 'Info' ke dalam import
+import { Building2, History, Gavel, Info } from 'lucide-react';
 
 export default function ProfilUmumPage() {
   // LOGIKA: Membagi 10 data menjadi 2 kolom (Kiri 1-5, Kanan 6-10)
@@ -93,7 +93,7 @@ export default function ProfilUmumPage() {
             <div className="space-y-4">
                 <h3 className="font-bold text-2xl text-slate-800 flex items-center gap-2 border-b border-slate-200 pb-2">
                     <History size={24} className="text-green-600"/>
-                    Sejarah
+                    Sejarah & Fungsi
                 </h3>
                 
                 <div className="text-slate-600 space-y-4 text-justify leading-relaxed">
@@ -116,6 +116,20 @@ export default function ProfilUmumPage() {
                         Pembentukan PPID Utama dan PPID Pembantu pada Badan Publik Pemerintah Provinsi Jawa Tengah, di mana PPID Utama dikelola oleh 
                         Dinas Komunikasi dan Informatika Provinsi Jawa Tengah.
                     </p>
+
+                    {/* --- TAMBAHAN PARAGRAF BARU (DEFINISI & FUNGSI) --- */}
+                    <div className="bg-green-50/60 p-5 rounded-xl border border-green-100 mt-6 text-sm">
+                        <h4 className="font-bold text-green-800 mb-2 flex items-center gap-2">
+                            <Info size={18} />
+                            Peran Strategis PPID
+                        </h4>
+                        <p className="text-slate-700 leading-relaxed">
+                            <strong>PPID (Pejabat Pengelola Informasi dan Dokumentasi)</strong> adalah pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan pelayanan informasi di badan publik.
+                            Kehadiran PPID bertujuan untuk mewujudkan penyelenggaraan negara yang transparan, efektif, dan akuntabel.
+                            Bagi masyarakat, PPID memberikan jaminan akses atas informasi publik untuk meningkatkan peran aktif mereka dalam proses pengambilan kebijakan publik.
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
