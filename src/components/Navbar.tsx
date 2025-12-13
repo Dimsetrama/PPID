@@ -29,12 +29,12 @@ const NAV_ITEMS = [
   {
     label: 'Daftar Informasi',
     children: [
-      { label: 'Daftar Informasi (Umum)', href: '#' }, // Link asli Daftar Informasi dipindah kesini
-      { label: 'Informasi Berkala', href: '#' },
-      { label: 'Barang & Jasa (PBJ)', href: '#' }, // Sub dari Berkala, kita taruh sejajar agar mudah diakses
-      { label: 'Informasi Dikecualikan', href: '#' },
-      { label: 'Informasi Serta Merta', href: '#' },
-      { label: 'Informasi Setiap Saat', href: '#' },
+      { label: 'Daftar Informasi Publik', href: '/daftar-informasi/publik' },
+      { label: 'Informasi Berkala', href: '/daftar-informasi/berkala' },
+      { label: 'Barang & Jasa (PBJ)', href: '/daftar-informasi/pbj' },
+      { label: 'Informasi Dikecualikan', href: '/daftar-informasi/dikecualikan' },
+      { label: 'Informasi Serta Merta', href: '/daftar-informasi/serta-merta' },
+      { label: 'Informasi Setiap Saat', href: '/daftar-informasi/setiap-saat' },
     ]
   },
   {
