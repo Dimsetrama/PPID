@@ -40,25 +40,24 @@ const NAV_ITEMS = [
   {
     label: 'Standar Pelayanan',
     children: [
-      { label: 'Standar Pelayanan (Umum)', href: '#' }, // Link asli Standar Pelayanan dipindah kesini
-      { label: 'SOP Pelayanan Publik', href: '#' },
-      { label: 'SOP Operasional', href: '#' },
-      { label: 'SOP PPID', href: '#' },
-      { label: 'Waktu Pelayanan', href: '#' },
+      { label: 'SOP Pelayanan Publik', href: '/standar-pelayanan/pelayanan-publik' },
+      { label: 'SOP Operasional', href: '/standar-pelayanan/sop-operasional' },
+      { label: 'SOP PPID', href: '/standar-pelayanan/sop-ppid' },
+      { label: 'Waktu Pelayanan', href: '/standar-pelayanan/waktu-pelayanan' },
     ]
   },
   { 
     label: 'Whistle Blower', 
-    href: '#', // Single link, tidak ada dropdown
+    href: '/whistle-blower', // Single link, tidak ada dropdown
     highlight: true // Penanda khusus agar beda warna
   },
   {
-    label: 'Permohonan',
+    label: 'Permohonan Informasi',
     children: [
-      { label: 'Permohonan Manual', href: '#' }, // Link asli Permohonan Informasi dipindah kesini
-      { label: 'Permohonan Online', href: '#' },
-      { label: 'Pengajuan Keberatan', href: '#' },
-      { label: 'Tata Cara Pengaduan Wewenang', href: '#' },
+      { label: 'Permohonan Informasi Manual', href: '/permohonan-informasi/manual' },
+      { label: 'Permohonan Informasi Online', href: '/permohonan-informasi/online' },
+      { label: 'Pengajuan Keberatan', href: '/permohonan-informasi/pengajuan-keberatan' },
+      { label: 'Tata Cara Pengaduan Wewenang', href: '/permohonan-informasi/pengaduan-wewenang' },
     ]
   },
   {

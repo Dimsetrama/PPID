@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'wsrv.nl', // Must be included for the image proxy
+      },
+      {
+        protocol: 'https',
         hostname: 'drive.google.com',
       },
       {
