@@ -14,23 +14,15 @@ export default function Home() {
     <main className="min-h-screen bg-slate-50 font-sans selection:bg-green-200 selection:text-green-900">
       <Navbar />
       <Hero />
-      
-      {/* Spacer */}
       <div className="h-40 bg-slate-50"></div>
 
-{/* SECTION 1: MAKLUMAT PELAYANAN (Fixed Syntax) */}
+{/* SECTION 1: MAKLUMAT PELAYANAN */}
       <section className="container mx-auto px-6 pb-20">
         <div className="relative bg-white rounded-3xl shadow-xl shadow-green-900/5 border border-slate-100 overflow-hidden group">
-          
-          {/* 1. DEKORASI: Gradient Line (Syntax Fixed: bg-linear-to-r) */}
           <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-green-600 via-yellow-400 to-green-600"></div>
-
-          {/* 2. DEKORASI: Pattern Halus */}
           <div className="absolute inset-0 opacity-[0.03]" 
                style={{ backgroundImage: 'radial-gradient(#15803d 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
           </div>
-
-          {/* 3. DEKORASI: Watermark Logo Jateng */}
           <div className="absolute -bottom-10 -right-10 w-64 h-64 opacity-10 grayscale rotate-12 pointer-events-none">
              <Image 
                src="/logo-jateng.png" 

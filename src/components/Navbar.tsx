@@ -6,8 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // --- DATA STRUKTUR NAVBAR ---
-// Struktur ini memisahkan Judul (Label) dari Link.
-// Jika item punya 'children', maka dia jadi Dropdown.
 const NAV_ITEMS = [
   { 
     label: 'Beranda', 
@@ -48,8 +46,8 @@ const NAV_ITEMS = [
   },
   { 
     label: 'Whistle Blower', 
-    href: '/whistle-blower', // Single link, tidak ada dropdown
-    highlight: true // Penanda khusus agar beda warna
+    href: '/whistle-blower', 
+    highlight: true 
   },
   {
     label: 'Permohonan Informasi',
@@ -63,29 +61,26 @@ const NAV_ITEMS = [
   {
     label: 'Regulasi',
     children: [
-      { label: 'Daftar Peraturan', href: '#' },
-      { label: 'JDIH DPRD Jateng', href: 'https://jdih.dprd.jatengprov.go.id/' }, // External Link
+      { label: 'Daftar Peraturan', href: '/regulasi/daftar-peraturan' },
+      { label: 'JDIH DPRD Jateng', href: 'https://jdih.dprd.jatengprov.go.id/' }, 
     ]
   },
   {
     label: 'Open Data',
     children: [
-      { label: 'Open Data (Umum)', href: '#' }, // Link asli Open Data dipindah kesini
-      { label: 'Portal Open Data Jateng', href: 'https://data.jatengprov.go.id/' },
-      { label: 'Statistik Data Sektoral', href: '#' },
+      { label: 'Portal Open Data Jateng', href: 'https://data.jatengprov.go.id/organization/sekretariat-dprd-provinsi-jawa-tengah' },
+      { label: 'Statistik Data Sektoral', href: '/open-data/statistik-sektoral' },
     ]
   },
   { 
     label: 'Aduan Pelayanan', 
-    href: '#' 
+    href: '/aduan-pelayanan' 
   },
 ];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // State untuk mobile dropdown toggle
   const [mobileDropdowns, setMobileDropdowns] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
@@ -116,6 +111,7 @@ const Navbar = () => {
         {/* LOGO AREA */}
         <Link href="/" className="flex items-center gap-3 group">
            <div className={`relative h-10 w-10 transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0 md:opacity-0'}`}>
+             {/* Pastikan file logo-jateng.png ada di folder public */}
              <Image 
                 src="/logo-jateng.png" 
                 alt="Logo Jateng" 
@@ -133,10 +129,8 @@ const Navbar = () => {
         <div className="hidden xl:flex items-center gap-6 text-white">
           {NAV_ITEMS.map((item, index) => (
             item.children ? (
-              // RENDER DROPDOWN
               <NavDropdown key={index} title={item.label} items={item.children} />
             ) : (
-              // RENDER SINGLE LINK
               <NavLink 
                 key={index} 
                 href={item.href} 
@@ -162,7 +156,6 @@ const Navbar = () => {
           {NAV_ITEMS.map((item, index) => (
             <div key={index} className="border-b border-white/10 last:border-0 pb-2">
               {item.children ? (
-                // Mobile Accordion
                 <div>
                   <button 
                     onClick={() => toggleMobileDropdown(item.label)}
@@ -172,27 +165,32 @@ const Navbar = () => {
                     <ChevronDown size={16} className={`transition-transform ${mobileDropdowns[item.label] ? 'rotate-180' : ''}`} />
                   </button>
                   
-                  {/* Submenu Mobile */}
                   {mobileDropdowns[item.label] && (
                     <div className="pl-4 flex flex-col gap-2 mt-1 mb-2 bg-green-950/30 rounded-lg p-3">
-                      {item.children.map((subItem, subIndex) => (
-                        <Link 
-                          key={subIndex} 
-                          href={subItem.href}
-                          className="text-sm text-green-100 hover:text-yellow-400 py-1 flex items-center gap-2"
-                        >
-                          <ChevronRight size={12} className="text-yellow-500/50" />
-                          {subItem.label}
-                        </Link>
-                      ))}
+                      {item.children.map((subItem, subIndex) => {
+                         const isExternal = subItem.href.startsWith('http');
+                         return (
+                            <Link 
+                              key={subIndex} 
+                              href={subItem.href}
+                              target={isExternal ? '_blank' : undefined}
+                              rel={isExternal ? 'noopener noreferrer' : undefined}
+                              className="text-sm text-green-100 hover:text-yellow-400 py-1 flex items-center gap-2"
+                              onClick={() => setIsMobileMenuOpen(false)} // Tutup menu saat klik link
+                            >
+                              <ChevronRight size={12} className="text-yellow-500/50" />
+                              {subItem.label}
+                            </Link>
+                         );
+                      })}
                     </div>
                   )}
                 </div>
               ) : (
-                // Mobile Single Link
                 <Link 
                   href={item.href} 
                   className={`block py-2 font-medium ${item.highlight ? 'text-yellow-400 font-bold' : 'text-white'}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
@@ -207,7 +205,6 @@ const Navbar = () => {
 
 // --- COMPONENTS HELPER ---
 
-// 1. Single Link Component
 const NavLink = ({ href, text, isHighlight }: { href: string; text: string; isHighlight?: boolean }) => {
   if (isHighlight) {
     return (
@@ -226,7 +223,7 @@ const NavLink = ({ href, text, isHighlight }: { href: string; text: string; isHi
   );
 };
 
-// 2. Dropdown Component
+// FIX: Update NavDropdown untuk menangani External Links
 const NavDropdown = ({ title, items }: { title: string; items: { label: string; href: string }[] }) => (
   <div className="relative group h-full flex items-center cursor-default">
     <div className="flex items-center gap-1 font-medium text-xs uppercase tracking-wide text-white/80 group-hover:text-white transition-colors cursor-pointer py-4">
@@ -236,15 +233,20 @@ const NavDropdown = ({ title, items }: { title: string; items: { label: string; 
     {/* Dropdown Menu Box */}
     <div className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-4 group-hover:translate-y-0 p-1 border-t-4 border-green-600 origin-top-left">
       <div className="max-h-[70vh] overflow-y-auto custom-scrollbar">
-        {items.map((item, i) => (
-          <Link 
-            key={i} 
-            href={item.href}
-            className="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800 rounded-md transition-colors border-b border-gray-50 last:border-0"
-          >
-            {item.label}
-          </Link>
-        ))}
+        {items.map((item, i) => {
+          const isExternal = item.href.startsWith('http');
+          return (
+            <Link 
+              key={i} 
+              href={item.href}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              className="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800 rounded-md transition-colors border-b border-gray-50 last:border-0"
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </div>
     </div>
   </div>
