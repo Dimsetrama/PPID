@@ -42,6 +42,7 @@ const NAV_ITEMS = [
       { label: 'SOP Operasional', href: '/standar-pelayanan/sop-operasional' },
       { label: 'SOP PPID', href: '/standar-pelayanan/sop-ppid' },
       { label: 'Waktu Pelayanan', href: '/standar-pelayanan/waktu-pelayanan' },
+      { label: 'Biaya Pelayanan', href: '/standar-pelayanan/biaya-pelayanan' },
     ]
   },
   { 

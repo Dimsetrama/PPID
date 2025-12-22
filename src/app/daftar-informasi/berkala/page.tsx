@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useSearchParams } from 'next/navigation'; 
 import Image from 'next/image';
 import { FileText, Download, Search, Filter, FolderOpen, ChevronDown, Loader2, Calendar } from 'lucide-react';
 import Papa from 'papaparse';
@@ -16,13 +17,24 @@ type BerkalaItem = {
   drive_link: string;
 };
 
-// --- KOMPONEN UTAMA ---
-export default function InformasiBerkalaPage() {
+// --- KOMPONEN KONTEN UTAMA ---
+function BerkalaContent() {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('q') || '';
+
   const [data, setData] = useState<BerkalaItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  
+  const [searchTerm, setSearchTerm] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+
+  useEffect(() => {
+    const query = searchParams.get('q');
+    if (query !== null) {
+        setSearchTerm(query);
+    }
+  }, [searchParams]);
 
   // 1. FETCH DATA
   useEffect(() => {
@@ -57,10 +69,12 @@ export default function InformasiBerkalaPage() {
   // 2. LOGIKA FILTER
   const filteredData = useMemo(() => {
     return data.filter(item => {
+      const lowerSearch = searchTerm.toLowerCase();
+      
       const matchesSearch = 
-        item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.title?.toLowerCase().includes(lowerSearch) ||
         item.year?.includes(searchTerm) ||
-        item.kategori?.toLowerCase().includes(searchTerm.toLowerCase());
+        item.kategori?.toLowerCase().includes(lowerSearch);
       
       const matchesCategory = selectedCategory === 'Semua' || item.kategori === selectedCategory;
 
@@ -94,11 +108,9 @@ export default function InformasiBerkalaPage() {
   useEffect(() => {
     if (searchTerm !== '') {
         setExpandedGroups(Object.keys(groupedData));
-    } else {
-        setExpandedGroups([]);
     }
-  }, [searchTerm, groupedData]);
-
+    // FIX: Menghapus eslint-disable yang tidak diperlukan
+  }, [searchTerm, groupedData]); 
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans selection:bg-green-200 selection:text-green-900">
@@ -107,7 +119,6 @@ export default function InformasiBerkalaPage() {
       {/* HERO SECTION */}
       <div className="relative bg-green-900 pt-32 pb-32 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-            {/* FIX: Mengganti <img> dengan <Image /> Next.js */}
             <Image 
                 src="/berlian.jpg" 
                 alt="Background" 
@@ -266,5 +277,18 @@ export default function InformasiBerkalaPage() {
 
       <Footer />
     </main>
+  );
+}
+
+// --- MAIN EXPORT DENGAN SUSPENSE BOUNDARY ---
+export default function InformasiBerkalaPage() {
+  return (
+    <Suspense fallback={
+        <div className="min-h-screen flex items-center justify-center bg-slate-50">
+            <Loader2 className="animate-spin text-green-600" size={40} />
+        </div>
+    }>
+        <BerkalaContent />
+    </Suspense>
   );
 }

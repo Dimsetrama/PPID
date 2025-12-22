@@ -1,12 +1,58 @@
 import React, { ReactNode } from 'react';
-import { FileText, ClipboardList, ShieldAlert, BookOpen } from 'lucide-react';
+import { 
+  FileClock, 
+  Siren, 
+  Archive, 
+  FileLock, 
+  ShieldAlert 
+} from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Hero = () => {
   // Setup Link WhatsApp
   const waNumber = "6285385066964";
   const waMessage = "Hai admin PPID Sekretariat DPRD Provinsi Jawa Tengah. Mohon kami dapat diberikan informasi.";
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+
+  // Daftar Menu Widget Baru
+  const widgets = [
+    {
+      title: "INFORMASI BERKALA",
+      href: "/daftar-informasi/berkala",
+      icon: <FileClock size={28} />,
+      desc: "Laporan & kinerja rutin",
+      color: "bg-blue-600"
+    },
+    {
+      title: "INFORMASI SERTAMERTA",
+      href: "/daftar-informasi/serta-merta",
+      icon: <Siren size={28} />,
+      desc: "Informasi darurat & mendesak",
+      color: "bg-orange-500"
+    },
+    {
+      title: "INFORMASI SETIAP SAAT",
+      href: "/daftar-informasi/setiap-saat",
+      icon: <Archive size={28} />,
+      desc: "Dokumen arsip & regulasi",
+      color: "bg-green-600"
+    },
+    {
+      title: "INFORMASI DIKECUALIKAN",
+      href: "/daftar-informasi/dikecualikan",
+      icon: <FileLock size={28} />,
+      desc: "Daftar informasi terbatas",
+      color: "bg-slate-600"
+    },
+    {
+      title: "WHISTLE BLOWER",
+      href: "/whistle-blower",
+      icon: <ShieldAlert size={28} />,
+      desc: "Lapor pelanggaran rahasia",
+      color: "bg-red-600"
+    }
+  ];
 
   return (
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-slate-900">
@@ -26,7 +72,7 @@ const Hero = () => {
       </div>
 
       {/* 2. MAIN CONTENT */}
-      <div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-24 pb-32">
+      <div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center pt-24 pb-40 md:pb-32">
         
         {/* LOGO JATENG */}
         <div className="relative w-28 h-28 md:w-36 md:h-36 mb-6 animate-fade-in-up drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">
@@ -68,33 +114,18 @@ const Hero = () => {
 
       </div>
 
-      {/* 3. FLOATING CARDS */}
+      {/* 3. FLOATING CARDS (Widget Baru) */}
       <div className="absolute bottom-0 translate-y-1/2 w-full z-20 px-4 md:px-6">
-        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-          <QuickCard 
-            icon={<FileText size={28} />} 
-            title="Permohonan Informasi" 
-            desc="Layanan permohonan data publik online." 
-            color="bg-green-600"
-          />
-          <QuickCard 
-            icon={<ClipboardList size={28} />} 
-            title="Cek Status Tiket" 
-            desc="Pantau progres permohonan Anda." 
-            color="bg-blue-600"
-          />
-          <QuickCard 
-            icon={<ShieldAlert size={28} />} 
-            title="Whistle Blower" 
-            desc="Lapor pelanggaran secara rahasia." 
-            color="bg-red-600"
-          />
-          <QuickCard 
-            icon={<BookOpen size={28} />} 
-            title="Peraturan & SOP" 
-            desc="Regulasi dan standar layanan PPID." 
-            color="bg-yellow-500"
-          />
+        <div className="container mx-auto">
+          {/* Grid Layout: 5 Kolom di Desktop (xl), 3 di Laptop (lg), 2 di Tablet (md), 1 di Mobile */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            {widgets.map((item, idx) => (
+              <QuickCard 
+                key={idx}
+                {...item}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -107,28 +138,33 @@ type QuickCardProps = {
   title: string;
   desc: string;
   color: string;
+  href: string;
 };
 
-const QuickCard = ({ icon, title, desc, color }: QuickCardProps) => (
-  <div className="bg-white p-6 rounded-xl shadow-2xl hover:shadow-green-900/30 hover:-translate-y-2 transition-all duration-300 border-b-4 border-transparent hover:border-green-500 group cursor-pointer relative overflow-hidden h-full flex flex-col justify-center">
-    <div className="absolute -right-4 -bottom-4 text-gray-100 opacity-50 transform rotate-12 scale-[2.5] group-hover:scale-[3] transition-transform duration-500 pointer-events-none">
-      {icon}
-    </div>
-    
-    <div className="flex items-center gap-4 relative z-10">
-      <div className={`${color} w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform shrink-0`}>
+const QuickCard = ({ icon, title, desc, color, href }: QuickCardProps) => (
+  <Link href={href} className="block h-full">
+    <div className="bg-white p-5 rounded-xl shadow-2xl hover:shadow-green-900/30 hover:-translate-y-2 transition-all duration-300 border-b-4 border-transparent hover:border-green-500 group cursor-pointer relative overflow-hidden h-full flex flex-col justify-center min-h-[110px]">
+      
+      {/* Icon Background Dekorasi */}
+      <div className="absolute -right-4 -bottom-4 text-gray-100 opacity-50 transform rotate-12 scale-[2.5] group-hover:scale-[3] transition-transform duration-500 pointer-events-none">
         {icon}
       </div>
-      <div className="text-left">
-        <h3 className="text-sm md:text-base font-bold text-gray-800 group-hover:text-green-700 transition-colors uppercase leading-tight mb-1.5">
-          {title}
-        </h3>
-        <p className="text-xs text-gray-500 leading-snug">
-          {desc}
-        </p>
+      
+      <div className="flex items-center gap-3 relative z-10">
+        <div className={`${color} w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform shrink-0`}>
+          {icon}
+        </div>
+        <div className="text-left">
+          <h3 className="text-xs md:text-sm font-extrabold text-gray-800 group-hover:text-green-700 transition-colors uppercase leading-tight mb-1">
+            {title}
+          </h3>
+          <p className="text-[10px] md:text-xs text-gray-500 leading-snug font-medium">
+            {desc}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 export default Hero;

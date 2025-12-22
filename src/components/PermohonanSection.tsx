@@ -4,7 +4,6 @@ import {
   FileText, 
   Wifi, 
   MessageSquareWarning, 
-  AlertOctagon, 
   ShieldAlert, 
   ArrowRight,
   Leaf 
@@ -13,39 +12,32 @@ import {
 const PermohonanSection = () => {
   const buttons = [
     {
-      label: "Permohonan Informasi (Manual)",
+      label: "Permohonan Informasi Manual",
       desc: "Datang langsung ke kantor pelayanan",
       icon: <FileText size={22} />,
       color: "bg-emerald-600",
-      href: "#"
+      href: "permohonan-informasi/manual"
     },
     {
       label: "Permohonan Informasi Online",
       desc: "Isi formulir digital dari mana saja",
       icon: <Wifi size={22} />,
       color: "bg-blue-600",
-      href: "#"
+      href: "permohonan-informasi/online"
     },
     {
-      label: "Pengaduan Informasi Online",
+      label: "Pengajuan Keberatan",
       desc: "Laporkan kendala layanan informasi",
       icon: <MessageSquareWarning size={22} />,
       color: "bg-yellow-500",
-      href: "#"
-    },
-    {
-      label: "Pengaduan Keberatan",
-      desc: "Ajukan keberatan atas tanggapan",
-      icon: <AlertOctagon size={22} />,
-      color: "bg-orange-500",
-      href: "#"
+      href: "permohonan-informasi/pengajuan-keberatan"
     },
     {
       label: "Pengaduan Pelanggaran ASN",
       desc: "Lapor pelanggaran kode etik pegawai",
       icon: <ShieldAlert size={22} />,
       color: "bg-red-600",
-      href: "#"
+      href: "permohonan-informasi/pengaduan-wewenang"
     }
   ];
 
