@@ -2,16 +2,15 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-// FIX: Tambahkan 'Info' ke dalam import
 import { Building2, History, Gavel, Info } from 'lucide-react';
 
 export default function ProfilUmumPage() {
-  // LOGIKA: Membagi 10 data menjadi 2 kolom (Kiri 1-5, Kanan 6-10)
   const midPoint = Math.ceil(PROGRAM_UNGGULAN.length / 2);
   const leftColumn = PROGRAM_UNGGULAN.slice(0, midPoint);
   const rightColumn = PROGRAM_UNGGULAN.slice(midPoint);
 
   return (
+    // FIX: Hapus 'overflow-x-hidden' agar 'sticky' di Desktop kembali jalan
     <main className="min-h-screen bg-slate-50 font-sans selection:bg-green-200 selection:text-green-900">
       <Navbar />
 
@@ -37,12 +36,18 @@ export default function ProfilUmumPage() {
       </div>
 
       {/* --- SECTION 1: INTRO & SEJARAH --- */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
+      <section className="container mx-auto px-6 py-12 lg:py-16">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
           
           {/* KIRI: Ilustrasi */}
-          <div className="w-full lg:w-5/12 group sticky top-24">
-            <div className="relative h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white transform rotate-1 transition-transform hover:rotate-0 duration-500">
+          {/* Sticky Logic:
+              - Mobile: 'relative' (diam)
+              - Desktop: 'lg:sticky lg:top-24' (mengikuti scroll)
+          */}
+          <div className="w-full lg:w-5/12 group relative lg:sticky lg:top-24 mb-8 lg:mb-0">
+            
+            {/* Gambar Responsif */}
+            <div className="relative h-[300px] md:h-[400px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white transform lg:rotate-1 transition-transform lg:hover:rotate-0 duration-500">
               <Image 
                 src="/gedung-dprd-jateng.jpg" 
                 alt="Gedung Berlian DPRD Jateng"
@@ -50,13 +55,15 @@ export default function ProfilUmumPage() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-green-900/90 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-8">
-                <p className="text-yellow-400 font-bold text-sm tracking-widest uppercase mb-1">Kantor Pusat</p>
-                <h3 className="text-white text-2xl font-bold">Gedung Berlian</h3>
-                <p className="text-green-100 text-sm mt-2 opacity-80">Jl. Pahlawan No.7, Semarang</p>
+              <div className="absolute bottom-0 left-0 p-6 lg:p-8">
+                <p className="text-yellow-400 font-bold text-xs lg:text-sm tracking-widest uppercase mb-1">Kantor Pusat</p>
+                <h3 className="text-white text-xl lg:text-2xl font-bold">Gedung Berlian</h3>
+                <p className="text-green-100 text-xs lg:text-sm mt-2 opacity-80">Jl. Pahlawan No.7, Semarang</p>
               </div>
             </div>
-            <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-green-100 rounded-2xl -rotate-1"></div>
+            
+            {/* Dekorasi: 'hidden' di mobile (mencegah zoom out), 'block' di desktop */}
+            <div className="hidden lg:block absolute -z-10 top-10 -right-10 w-full h-full bg-green-100 rounded-2xl -rotate-1"></div>
           </div>
 
           {/* KANAN: Teks Narasi */}
@@ -67,10 +74,10 @@ export default function ProfilUmumPage() {
                 <Building2 size={16} />
                 <span>Tentang Institusi</span>
               </div>
-              <h2 className="text-3xl font-extrabold text-slate-800 leading-tight mb-4">
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-800 leading-tight mb-4">
                 Keterbukaan Informasi adalah <span className="text-green-600">Hak Asasi.</span>
               </h2>
-              <p className="text-slate-600 text-lg leading-relaxed text-justify">
+              <p className="text-slate-600 text-base lg:text-lg leading-relaxed text-justify">
                 Hak memperoleh informasi merupakan hak asasi manusia dan keterbukaan informasi publik merupakan salah satu ciri penting negara demokratis yang menjunjung tinggi kedaulatan rakyat. 
                 Pemerintah Provinsi Jawa Tengah berkomitmen penuh untuk mewujudkan <i>Good Government</i> dan <i>Clean Government</i> melalui transparansi informasi yang akuntabel kepada masyarakat.
               </p>
@@ -96,7 +103,7 @@ export default function ProfilUmumPage() {
                     Sejarah & Fungsi
                 </h3>
                 
-                <div className="text-slate-600 space-y-4 text-justify leading-relaxed">
+                <div className="text-slate-600 space-y-4 text-justify leading-relaxed text-sm lg:text-base">
                     <p>
                         Keterbukaan informasi publik di Jawa Tengah diselenggarakan pasca berlakunya UU Nomor 14 Tahun 2008. 
                         Sebagai wujud keseriusan, Pemerintah Provinsi Jawa Tengah menjadi provinsi pertama di Indonesia yang membentuk 
@@ -117,7 +124,6 @@ export default function ProfilUmumPage() {
                         Dinas Komunikasi dan Informatika Provinsi Jawa Tengah.
                     </p>
 
-                    {/* --- TAMBAHAN PARAGRAF BARU (DEFINISI & FUNGSI) --- */}
                     <div className="bg-green-50/60 p-5 rounded-xl border border-green-100 mt-6 text-sm">
                         <h4 className="font-bold text-green-800 mb-2 flex items-center gap-2">
                             <Info size={18} />
@@ -141,7 +147,6 @@ export default function ProfilUmumPage() {
       {/* --- SECTION 2: 10 PROGRAM UNGGULAN --- */}
       <section className="relative py-20 bg-linear-to-b from-slate-50 to-green-50 overflow-hidden">
         
-        {/* Background Decorations */}
         <div className="absolute inset-0 opacity-[0.03]" 
              style={{ backgroundImage: 'radial-gradient(#15803d 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
         </div>
@@ -159,7 +164,7 @@ export default function ProfilUmumPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                 
-                {/* KOLOM KIRI (Nomor 1-5) */}
+                {/* KOLOM KIRI */}
                 <div className="space-y-6">
                     {leftColumn.map((program, index) => (
                         <div key={index} className="group flex items-start gap-4 p-5 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-lg hover:border-green-300 transition-all duration-300 hover:-translate-x-1">
@@ -178,10 +183,10 @@ export default function ProfilUmumPage() {
                     ))}
                 </div>
 
-                {/* KOLOM KANAN (Nomor 6-10) */}
+                {/* KOLOM KANAN */}
                 <div className="space-y-6">
                     {rightColumn.map((program, index) => (
-                        <div key={index + midPoint} className="group flex items-start gap-4 p-5 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-lg hover:border-green-300 transition-all duration-300 hover:translate-x-1">
+                        <div key={index + midPoint} className="group flex items-start gap-4 p-5 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-lg hover:border-green-300 transition-all duration-300 md:hover:translate-x-1">
                             <div className="shrink-0 w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center text-green-700 font-bold text-lg border border-green-100 group-hover:bg-green-600 group-hover:text-white transition-colors">
                                 {index + 1 + midPoint}
                             </div>
