@@ -67,22 +67,21 @@ export default async function PejabatStrukturalPage() {
         <div className="flex flex-col lg:flex-row gap-10 items-start">
           
           {/* KIRI: BAGAN STRUKTUR (Static) */}
-          <div className="w-full lg:w-5/12 sticky top-24">
+          {/* FIX: Ubah sticky jadi relative di mobile, sticky hanya di lg (Desktop) */}
+          <div className="w-full lg:w-5/12 relative lg:sticky lg:top-24">
             <div className="bg-white p-5 rounded-3xl shadow-lg border border-slate-100">
                 <div className="mb-4 pb-2 border-b border-slate-100 flex justify-between items-center">
                     <h3 className="text-lg font-bold text-slate-800">Bagan Struktur</h3>
-                    {/* Tulisan Updated dihapus */}
                 </div>
                 
-                {/* Gambar Landscape (Static - No Zoom) */}
+                {/* Gambar Landscape */}
                 <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
                     <Image 
                         src="/STRUKTUR-ORGANISASI-2025.jpg" 
                         alt="Struktur Organisasi Sekretariat DPRD"
                         fill
-                        className="object-contain" // Hapus transition & scale
+                        className="object-contain"
                     />
-                    {/* Overlay Zoom dihapus */}
                 </div>
             </div>
           </div>
